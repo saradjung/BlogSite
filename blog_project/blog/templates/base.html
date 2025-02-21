@@ -8,6 +8,38 @@
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body>
+<!-- templates/navbar.html -->
+<nav class="bg-blue-600 p-4">
+    <div class="container mx-auto flex justify-between items-center">
+        <!-- Left Section: Logo + Menu -->
+        <div class="flex items-center space-x-6">
+            <!-- Logo -->
+            <a href="/" class="text-white text-xl font-bold">MyBlog</a>
+            
+            <!-- Menu Items -->
+            <div class="hidden md:flex space-x-4">
+                <a href="/" class="text-white hover:bg-blue-500 px-3 py-2 rounded-md">Home</a>
+                <a href="/about/" class="text-white hover:bg-blue-500 px-3 py-2 rounded-md">About</a>
+                <a href="/contact/" class="text-white hover:bg-blue-500 px-3 py-2 rounded-md">Contact</a>
+            </div>
+        </div>
+
+        <!-- Right Section: Login -->
+        <div class="hidden md:flex">
+            <a href="/login/" class="text-white bg-gray-700 hover:bg-gray-800 px-4 py-2 rounded-md">Login</a>
+        </div>
+
+        <!-- Mobile Menu Button -->
+        <div class="md:hidden">
+            <button id="menu-button" class="text-white">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                </svg>
+            </button>
+        </div>
+    </div>
+</nav>
+
     {% block content %}
     {% endblock %}
 </body>
