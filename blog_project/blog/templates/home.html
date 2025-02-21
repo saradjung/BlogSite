@@ -5,7 +5,11 @@
     {% for post in posts %}
     <div>
         <h2>{{post.title}}</h2>
-        <p>{{post.content}}
+        <p>{{post.content|truncatewords:10}}</p>
+        <a href="{% url 'blog' post.id %}" style="color: blue;">Read More...</a>
+        <br>
+        <br>
+        <hr>
         </div>
     {%empty%}
         <p>np posts available.</p>
