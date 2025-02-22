@@ -15,4 +15,16 @@
         <p>np posts available.</p>
     {% endfor %}
 </div>
+<div style="display: flex; justify-content: center; align-items: center; height: 50vh;">
+    <div style="max-width: 700px; text-align: center; background-color: black; padding: 20px; color: white; border-radius: 10px;">
+        <h2 style="font-size: 24px;">Want to share your thoughts?</h2>
+        <p style="font-size: 16px;">Click below to write and post your blog.</p>
+        <a href="{% url 'postblog' %}" 
+           style="display: inline-block; background-color: red; color: white; padding: 10px 20px; 
+                  font-size: 18px; text-decoration: none; border-radius: 5px; font-weight: bold;">
+            Post Your Blog
+        </a>
+    </div>
+</div>
+
 {% endblock %}

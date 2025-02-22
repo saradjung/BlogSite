@@ -1,4 +1,19 @@
 {% extends 'base.html' %}
 {% block content %}
-<h1>Post A Blog here</h1>
+<div class="flex justify-center items-center min-h-screen">
+    <form method="POST" class="bg-white p-8 shadow-lg rounded-lg w-1/2">
+        {% csrf_token %}
+        <label class="block mb-2">Title:</label>
+        <input type="text" name="title" class="w-full p-2 border rounded mb-4" required>
+
+        <label class="block mb-2">Content:</label>
+        <textarea name="content" class="w-full p-2 border rounded mb-4" rows="5" required></textarea>
+
+        <label class="block mb-2">Author:</label>
+        <input type="text" name="author" class="w-full p-2 border rounded mb-4" required>
+
+        <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded">Post Blog</button>
+    </form>
+</div>
+
 {% endblock %}
