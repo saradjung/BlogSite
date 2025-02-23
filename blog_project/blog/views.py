@@ -29,7 +29,7 @@ def about(request):
 def contact(request):
     return render(request, 'contact.html')
 
-def login(request):
+def userlogin(request):
     if request.method == "POST":
         username=request.POST.get("username")
         password=request.POST.get("password")
