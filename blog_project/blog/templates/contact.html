@@ -1,4 +1,31 @@
 {% extends 'base.html' %}
 {% block content %}
-<h1>Contact Page</h1>
+<div class="min-h-screen flex flex-col justify-center items-center bg-blue-50 p-6">
+    <div class="max-w-4xl bg-white shadow-xl rounded-2xl p-10 text-center border-t-4 border-blue-500">
+        <h1 class="text-5xl font-extrabold text-blue-700 mb-6">Contact Us</h1>
+        <p class="text-lg text-gray-700 leading-relaxed mb-8">
+            Get in touch with us! We are students from Tribhuvan University (TU), CSIT 5th Semester. 
+            Feel free to reach out via email or phone.
+        </p>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div class="bg-blue-100 p-6 rounded-lg shadow-md text-center">
+                <img src="https://images.pexels.com/photos/11167639/pexels-photo-11167639.jpeg" alt="Rabin Shrestha" class="w-32 h-32 mx-auto rounded-full mb-4">
+                <h2 class="text-2xl font-semibold text-blue-600">Rabin Shrestha</h2>
+                <p class="text-gray-700">CSIT 5th Semester, TU</p>
+                <p class="text-gray-600 mt-2">📧 rabin@ascol.com</p>
+                <p class="text-gray-600">📞 +977-9812345678</p>
+            </div>
+            
+            <div class="bg-blue-100 p-6 rounded-lg shadow-md text-center">
+                <img src="https://images.pexels.com/photos/6764727/pexels-photo-6764727.jpeg" alt="Sarad Thapa" class="w-32 h-32 mx-auto rounded-full mb-4">
+                <h2 class="text-2xl font-semibold text-blue-600">Sarad Thapa</h2>
+                <p class="text-gray-700">CSIT 5th Semester, TU</p>
+                <p class="text-gray-600 mt-2">📧 sarad@ascol.com</p>
+                <p class="text-gray-600">📞 +977-9801234567</p>
+            </div>
+        </div>
+    </div>
+</div>
+
 {% endblock %}
