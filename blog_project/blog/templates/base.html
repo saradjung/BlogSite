@@ -17,25 +17,23 @@
     {% endif %}
 
 <!-- templates/navbar.html -->
-<nav class="bg-blue-600 p-4">
+<nav class="absolute top-0 left-0 w-full p-4 bg-transparent z-10">
     <div class="container mx-auto flex justify-between items-center">
-        <!-- Left Section: Logo + Menu -->
-        <div class="flex items-center space-x-6">
-            <!-- Logo -->
-            <a href="/" class="text-white text-xl font-bold">MyBlog</a>
-            
-            <!-- Menu Items -->
-            <div class="hidden md:flex space-x-4">
-                <a href="/" class="text-white hover:bg-blue-500 px-3 py-2 rounded-md">Home</a>
-                <a href="/about/" class="text-white hover:bg-blue-500 px-3 py-2 rounded-md">About</a>
-                <a href="/contact/" class="text-white hover:bg-blue-500 px-3 py-2 rounded-md">Contact</a>
-            </div>
+        <!-- Logo (Blue Text) -->
+        <a href="{%url 'home'%}" class="text-blue-600 text-2xl font-bold">MyBlog</a>
+
+        <!-- Nav Links (Centered) -->
+        <div class="flex-1 text-center">
+            <a href="{%url 'home'%}" class="text-gray-800 hover:text-blue-600 mx-4 transition">Home</a>
+            <a href="{%url 'about'%}" class="text-gray-800 hover:text-blue-600 mx-4 transition">About</a>
+            <a href="{%url 'contact'%}" class="text-gray-800 hover:text-blue-600 mx-4 transition">Contact</a>
         </div>
 
-        <!-- Right Section: Login -->
-        <div class="hidden md:flex">
-            <a href="{% url 'login' %}" class="text-white bg-gray-700 hover:bg-gray-800 px-4 py-2 rounded-md">Login</a>
-        </div>
+        <!-- Login Button (Properly Aligned) -->
+        <a href="{%url 'login'%}" class="bg-white-900 text-blue-600/100 px-4 py-2  border-2 border-blue-500 hover: transition">
+            Login
+        </a>
+
 
         <!-- Mobile Menu Button -->
         <div class="md:hidden">
@@ -48,7 +46,7 @@
     </div>
 </nav>
 
-    {% block content %}
-    {% endblock %}
+{% block content %}
+{% endblock %}
 </body>
 </html>
