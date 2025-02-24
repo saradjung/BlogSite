@@ -36,11 +36,17 @@
             </a>
         {% else %}
         <!-- User is not logged in, show Login -->
-        <a href="{% url 'login' %}" class="bg-white-900 text-blue-600/100 px-4 py-2 border-2 border-blue-500 hover:transition">
+        <a href="{% url 'login' %}" class="bg-blue-500 text-white px-4 py-2 border-2 border-blue-500 rounded-lg hover:transition mr-2">
             Login
         </a>
+
+        <a href="{% url 'signup' %}" class="bg-white-900 text-blue-600/100 px-4 py-2 border-2 border-blue-500 rounded-lg hover:transition">
+            Sign Up
+        </a>
+
         {% endif %}
 
+        
         <!-- Mobile Menu Button -->
         <div class="md:hidden">
             <button id="menu-button" class="text-white">

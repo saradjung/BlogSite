@@ -4,6 +4,7 @@ from .models import Post
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from .forms import CustomUserCreationForm
 # Create your views here.
 
 def home(request):
@@ -51,3 +52,17 @@ def userlogin(request):
 def userlogout(request):
     logout(request)
     return redirect('home')
+
+def signup(request):
+    if request.method =="POST":
+        form=CustomUserCreationForm(request.POST)
+        if form.is_valid():
+            user=form.save()
+            login(request,user)
+            return redirect("home")
+        else:
+            return render(request, "signup.html", {"form": form}) 
+    else:
+        form=CustomUserCreationForm()
+
+        return render(request,"signup.html",{"form":form})
