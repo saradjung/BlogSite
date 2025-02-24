@@ -29,11 +29,17 @@
             <a href="{%url 'contact'%}" class="text-gray-800 hover:text-blue-600 mx-4 transition">Contact</a>
         </div>
 
-        <!-- Login Button (Properly Aligned) -->
-        <a href="{%url 'login'%}" class="bg-white-900 text-blue-600/100 px-4 py-2  border-2 border-blue-500 hover: transition">
+        <!-- Login Button -->
+        {% if user.is_authenticated %}
+            <a href="{% url 'logout' %}" class="bg-white-900 text-blue-600/100 px-4 py-2 border-2 border-blue-500 hover:transition">
+            Logout
+            </a>
+        {% else %}
+        <!-- User is not logged in, show Login -->
+        <a href="{% url 'login' %}" class="bg-white-900 text-blue-600/100 px-4 py-2 border-2 border-blue-500 hover:transition">
             Login
         </a>
-
+        {% endif %}
 
         <!-- Mobile Menu Button -->
         <div class="md:hidden">
