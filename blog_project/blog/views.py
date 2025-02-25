@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
-from .models import Post, Comment, Like
+from .models import Post, Comment, Like, Bookmark
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.shortcuts import render, get_object_or_404, redirect
@@ -14,7 +14,11 @@ def home(request):
 
 def getBlog(request, post_id):
     post = Post.objects.get(id=post_id)
-    return render(request, 'singleblog.html',{'post':post})
+    if request.user.is_authenticated:
+        has_bookmarked = Bookmark.objects.filter(user=request.user, post=post).exists()
+    else:
+        has_bookmarked = False
+    return render(request, 'singleblog.html',{'post':post, 'has_bookmarked':has_bookmarked,})
 
 @login_required(login_url='/login/')
 def postBlog(request):
@@ -51,10 +55,12 @@ def userlogin(request):
 
     return render(request, "login.html")
 
+#user logout function
 def userlogout(request):
     logout(request)
     return redirect('home')
 
+#performs user registration without super admin permission
 def signup(request):
     if request.method =="POST":
         form=CustomUserCreationForm(request.POST)
@@ -68,7 +74,8 @@ def signup(request):
         form=CustomUserCreationForm()
 
         return render(request,"signup.html",{"form":form})
-    
+
+#adds comments on the blog post only if user is logged in   
 @login_required(login_url='/login/')
 def add_comment(request, post_id):
     post = get_object_or_404(Post, id=post_id)
@@ -78,6 +85,7 @@ def add_comment(request, post_id):
             Comment.objects.create(post=post, user=request.user, content=content)
     return redirect("blog", post_id=post.id)
 
+#likes post only if user is logged in
 @login_required(login_url='/login/')
 def like_post(request, post_id):
     post = get_object_or_404(Post, id=post_id)
@@ -90,3 +98,12 @@ def like_post(request, post_id):
 
     return redirect('blog', post_id=post.id)  # Ensure 'single_post' is your post detail view name
 
+#bookmark post only if used is logged in
+@login_required
+def bookmark_post(request, post_id):
+    post =get_object_or_404(Post, id=post_id)
+    bookmark, created = Bookmark.objects.get_or_create(user=request.user, post=post)
+
+    if not created: #if already bookmarked
+        bookmark.delete()
+    return redirect('blog', post_id=post_id) #redirects user to the same post

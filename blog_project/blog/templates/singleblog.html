@@ -8,6 +8,7 @@
       <a href="{% url 'home' %}" class="text-sm text-blue-500 hover:underline">&larr; Back to Home</a>
     <h1 class="text-3xl font-bold text-gray-800">{{ post.title }}</h1>
 
+
     <p class="text-gray-600 text-sm mt-2">
         By <span class="font-semibold">{{ post.author }}</span> • 
         Published on <span class="text-blue-500">{{ post.created_at|date:"F d, Y" }}</span>
@@ -22,21 +23,37 @@
         {{ post.content }}
     </p>
 
-    <!-- Like and Comment Section -->
+    <!-- Like, Comment and Bookmark Section -->
     <div class="mt-6 flex items-center space-x-4">
         <!-- Like Button -->
-        <form action="{% url 'like_post' post.id%}" method="POST">
+        <form action="{% url 'like_post' post.id %}" method="POST">
             {% csrf_token %}
-            <button type="submit" class="px-4 py-2 bg-blue-500 text-white rounded-lg shadow-md">
-                
-                    ❤️ Like ({{ post.total_likes }})
-                
+            <button type="submit" class="px-6 py-3 bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-full shadow-md transition-all duration-300 ease-in-out transform hover:scale-105 hover:from-blue-600 hover:to-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-400">
+                ❤️ Like ({{ post.total_likes }})
             </button>
         </form>
-
+    
         <!-- Comment Button -->
-        <a href="#comment-section" class="px-4 py-2 bg-green-500 text-white rounded-lg shadow-md">💬 Comment</a>
+        <a href="#comment-section" class="px-6 py-3 bg-gradient-to-r from-green-500 to-green-600 text-white rounded-full shadow-md transition-all duration-300 ease-in-out transform hover:scale-105 hover:from-green-600 hover:to-green-700 focus:outline-none focus:ring-2 focus:ring-green-400">
+            💬 Comment
+        </a>
+    
+        {% if user.is_authenticated %}
+            <form action="{% url 'bookmark_post' post.id %}" method="POST">
+                {% csrf_token %}
+                <button type="submit" class="px-6 py-3 bg-gradient-to-r from-purple-500 to-purple-600 text-white rounded-full shadow-md transition-all duration-300 ease-in-out transform hover:scale-105 hover:from-purple-600 hover:to-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-400">
+                    {% if has_bookmarked %}
+                        <span class="text-xl">⭐</span> <!-- Star Emoji -->
+                        <span>Unbookmark</span>
+                    {% else %}
+                        <span class="text-xl">🌟</span> <!-- Star Emoji -->
+                        <span>Bookmark</span>
+                    {% endif %}
+                </button>
+            </form>
+        {% endif %}
     </div>
+    
 
     <hr class="my-6">
 
