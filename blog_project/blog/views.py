@@ -107,3 +107,10 @@ def bookmark_post(request, post_id):
     if not created: #if already bookmarked
         bookmark.delete()
     return redirect('blog', post_id=post_id) #redirects user to the same post
+
+@login_required
+def bookmarked_posts(request):
+    bookmarked_posts = Post.objects.filter(bookmarks__user=request.user)
+
+    
+    return render(request, 'bookmarks.html', {'bookmarked_posts': bookmarked_posts})

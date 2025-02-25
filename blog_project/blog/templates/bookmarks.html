@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+
+{% block title %}Bookmarked Posts{% endblock %}
+
+{% block content %}
+<div class="container mx-auto pt-20 px-4">
+    <h1 class="text-3xl font-bold text-gray-800 mb-6">Your Bookmarked Posts</h1>
+    
+    {% if bookmarked_posts %}
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {% for post in bookmarked_posts %}
+            <div class="bg-white rounded-2xl shadow-lg overflow-hidden transition-transform transform hover:scale-105 hover:shadow-xl flex flex-col">
+                
+                {% if post.image %}
+                <img src="{{ post.image.url }}" alt="Post Image" class="w-full h-48 object-cover">
+                {% else %}
+                <img src="https://via.placeholder.com/300" alt="No Image" class="w-full h-48 object-cover">
+                {% endif %}
+    
+                <div class="p-4 flex flex-col flex-grow">
+                    <h2 class="text-xl font-semibold text-gray-800">{{ post.title }}</h2>
+                    <p class="text-gray-700 text-sm flex-grow">{{ post.content|truncatechars:100 }}</p>
+                    <a href="{% url 'blog' post.id %}" class="text-blue-500 hover:underline mt-2">Read More...</a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p class="text-gray-600 text-lg">You have not bookmarked any posts yet.</p>
+    {% endif %}
+</div>
+
+
+{% endblock %}

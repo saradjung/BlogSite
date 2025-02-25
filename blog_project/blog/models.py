@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+
 # Create your models here.
 class Post(models.Model):
     title=models.CharField(max_length=200)
@@ -8,7 +9,7 @@ class Post(models.Model):
     created_at=models.DateTimeField(auto_now_add=True)
     updated_at=models.DateTimeField(auto_now=True)
     image = models.ImageField(upload_to='blog_images/', null=True, blank=True)
-
+    
     def __str__(self):
         return self.title
     
@@ -32,6 +33,8 @@ class Bookmark(models.Model):
     post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='bookmarks')
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
+
+
 
     class Meta:
         unique_together = ('user','post') #prevents duplicate bookmarks
