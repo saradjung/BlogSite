@@ -10,4 +10,6 @@ urlpatterns = [
     path('login/',views.userlogin, name="login"),
     path('logout/',views.userlogout, name='logout'),
     path('signup/',views.signup,name='signup'),
+    path("post/<int:post_id>/comment/", views.add_comment, name="add_comment"),
+    path("post/<int:post_id>/like/", views.like_post, name="like_post"),
 ]

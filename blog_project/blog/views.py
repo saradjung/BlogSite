@@ -1,8 +1,9 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
-from .models import Post
+from .models import Post, Comment, Like
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
+from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 from .forms import CustomUserCreationForm
 # Create your views here.
@@ -67,3 +68,25 @@ def signup(request):
         form=CustomUserCreationForm()
 
         return render(request,"signup.html",{"form":form})
+    
+@login_required(login_url='/login/')
+def add_comment(request, post_id):
+    post = get_object_or_404(Post, id=post_id)
+    if request.method == "POST":
+        content = request.POST.get("content")
+        if content:
+            Comment.objects.create(post=post, user=request.user, content=content)
+    return redirect("blog", post_id=post.id)
+
+@login_required(login_url='/login/')
+def like_post(request, post_id):
+    post = get_object_or_404(Post, id=post_id)
+    like = Like.objects.filter(user=request.user, post=post).first()
+
+    if like:
+        like.delete()  # Unlike the post
+    else:
+        Like.objects.create(user=request.user, post=post)  # Like the post
+
+    return redirect('blog', post_id=post.id)  # Ensure 'single_post' is your post detail view name
+
