@@ -20,9 +20,10 @@ def postBlog(request):
     if request.method == 'POST':
         title = request.POST['title']
         content = request.POST['content']
+        image = request.FILES.get('image')
         author = request.user
         if title and content:
-            Post.objects.create(title=title, content=content, author=author)
+            Post.objects.create(title=title, content=content, author=author, image=image)
             return redirect('home')
     return render(request, 'postblog.html')
 
