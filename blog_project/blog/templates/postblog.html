@@ -12,8 +12,21 @@
         <label class="block mb-2">Upload Image:</label>
         <input type="file" name="image" class="w-full p-2 border rounded mb-4">
 
+        <label class="block mb-2 text-gray-700 font-medium">Select Tags:</label>
+        <div class="flex flex-wrap gap-2 mb-4">
+            {% for tag in tags %}
+                <label class="flex items-center space-x-2 cursor-pointer">
+                    <input type="checkbox" name="tags" value="{{ tag.id }}" class="hidden peer">
+                    <span class="px-3 py-1 border rounded-md bg-gray-200 text-gray-700 peer-checked:bg-blue-500 peer-checked:text-white transition">
+                        {{ tag.name }}
+                    </span>
+                </label>
+            {% endfor %}
+        </div>
+
         <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded">Post Blog</button>
     </form>
 </div>
+
 
 {% endblock %}

@@ -28,10 +28,14 @@ def postBlog(request):
         content = request.POST['content']
         image = request.FILES.get('image')
         author = request.user
+        selected_tags = request.POST.getlist('tags')
         if title and content:
-            Post.objects.create(title=title, content=content, author=author, image=image)
+            post = Post.objects.create(title=title, content=content, author=author, image=image)
+            post.tags.set(selected_tags)
             return redirect('home')
-    return render(request, 'postblog.html')
+    else:
+        tags = Tag.objects.all()
+        return render(request, 'postblog.html', {"tags":tags})
 
 def about(request):
     return render(request, 'about.html')
