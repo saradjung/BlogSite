@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mx-auto pt-20 px-4">
+    <h1 class="text-left text-3xl font-bold text-lime-900 mb-10">{{author.username}}'s Posts:</h1>
+<div class="grid md:grid-cols-3 gap-6">
+    {% for post in posts %}
+    <div class="bg-white rounded-2xl shadow-lg overflow-hidden transition-transform transform hover:scale-105 hover:shadow-xl">
+        
+        {% if post.image %}
+        <img src="{{ post.image.url }}" alt="Post Image" class="w-full h-48 object-cover">
+        {% else %}
+        <img src="https://via.placeholder.com/300" alt="No Image" class="w-full h-48 object-cover">
+        {% endif %}
+
+        <div class="p-4">
+            <h2 class="text-xl font-semibold text-gray-800 mt-2">{{ post.title }}</h2>
+            <p class="text-gray-700">{{ post.content|truncatechars:100 }}</p>
+            <a href="{% url 'blog' post.id %}" class="text-blue-500 hover:underline">Read More...</a>
+        </div>
+    </div>
+    {% empty %}
+    <p class="col-span-3 text-center text-gray-500">No posts available.</p>
+    {% endfor %}
+</div>
+</div>
+</div>
+{% endblock %}

@@ -13,5 +13,6 @@ urlpatterns = [
     path("post/<int:post_id>/comment/", views.add_comment, name="add_comment"),
     path("post/<int:post_id>/like/", views.like_post, name="like_post"),
     path('post/<int:post_id>/bookmark/', views.bookmark_post, name='bookmark_post'),
-    path('bookmarks/',views.bookmarked_posts,name="bookmarks")
+    path('bookmarks/',views.bookmarked_posts,name="bookmarks"),
+    path('author/<str:username>/', views.author_posts, name='author_posts'),
 ]

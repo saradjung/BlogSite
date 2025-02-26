@@ -6,6 +6,7 @@ from django.contrib import messages
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 from .forms import CustomUserCreationForm
+from django.contrib.auth.models import User
 # Create your views here.
 
 def home(request):
@@ -114,3 +115,8 @@ def bookmarked_posts(request):
 
     
     return render(request, 'bookmarks.html', {'bookmarked_posts': bookmarked_posts})
+
+def author_posts(request, username):
+    author = get_object_or_404(User, username=username)
+    posts = Post.objects.filter(author=author.username)  # Filter by author username
+    return render(request, 'author_posts.html', {'author': author, 'posts': posts})
