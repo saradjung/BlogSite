@@ -6,8 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Blog</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 </head>
-<body>
+<body class="flex flex-col min-h-screen">
+    
     {% if messages %}
     {% for message in messages %}
         <p style="color: {% if message.tags == 'success' %}green{% else %}red{% endif %};">
@@ -61,7 +63,54 @@
     </div>
 </nav>
 
+
 {% block content %}
 {% endblock %}
+<footer class="bg-black text-gray-400 py-8 mt-9 ">
+    <div class="container mx-auto px-4">
+        <hr class="border-gray-700 mb-6">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div class="flex flex-col md:flex-row md:items-start md:space-x-40">
+                <div>
+                    <h3 class="text-5xl font-semibold mb-3 text-blue-500">
+                        <a href="{% url 'home' %}" class="hover">MyBlog</a>
+                    </h3>
+                    <p class="text-sm mb-4">Share Your Thoughts</p>
+                    <div class="flex space-x-4 mb-4">
+                        <a href="https://www.facebook.com/profile.php?id=100036591739321" class="hover:text-white"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="hover:text-white"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="hover:text-white"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#" class="hover:text-white"><i class="fab fa-github"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="grid grid-cols-2 gap-8 ml-16">
+                <div >
+                    <h3 class="text-lg font-semibold mb-4">Quick Links</h3>
+                    <ul class="space-y-2">
+                        <li><a href="{% url 'home' %}" class="hover:text-white">Home</a></li>
+                        <li><a href="{% url 'about' %}" class="hover:text-white">About</a></li>
+                        <li><a href="{% url 'contact' %}" class="hover:text-white">Contact</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Account</h3>
+                    <ul class="space-y-2">
+                        {% if user.is_authenticated %}
+                            <li><a href="{% url 'logout' %}" class="hover:text-white">Logout</a></li>
+                        {% else %}
+                            <li><a href="{% url 'login' %}" class="hover:text-white">Login</a></li>
+                            <li><a href="{% url 'signup' %}" class="hover:text-white">Signup</a></li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="mt-8 text-center">
+            <p>&copy; 2025 MyBlog. All rights reserved.</p>
+        </div>
+    </div>
+</footer>
+
 </body>
 </html>
