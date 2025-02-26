@@ -10,10 +10,9 @@
 
 
     <p class="text-gray-600 text-sm mt-2">
-        By <a href="{% url 'author_posts' username=post.author %}" span class="font-semibold">{{ post.author }}</span> • 
+        By <a href="{% url 'author_posts' username=post.author %}" class="font-semibold hover:underline">{{ post.author }}</a> • 
         Published on <span class="text-blue-500">{{ post.created_at|date:"F d, Y" }}</span>
     </p>
-
     <hr class="my-4">
     {% if post.image %}
         <img src="{{ post.image.url }}" alt="Blog Image" class="w-full h-auto rounded-lg shadow-md mt-4">
