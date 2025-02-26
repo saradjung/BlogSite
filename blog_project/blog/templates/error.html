@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="min-h-screen flex items-center justify-center bg-blue-50">
+    <div class="text-center max-w-md bg-white shadow-lg rounded-2xl p-8 border-t-4 border-blue-600">
+        <h1 class="text-6xl font-bold text-blue-600">Oops!</h1>
+        <p class="text-lg text-gray-700 mt-4">We couldn't find what you were looking for.</p>
+
+        <!-- Error Image / Illustration -->
+        <div class="mt-6">
+            <img src="https://www.salvagedata.com/wp-content/uploads/2023/03/Server-repair.png" alt="Error Image" class="mx-auto rounded-lg shadow">
+        </div>
+
+        <p class="text-gray-600 mt-4">{{ message }}</p>
+
+        <!-- Go Back Button -->
+        <a href="{% url 'home' %}" class="mt-6 inline-block px-6 py-3 bg-blue-600 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition">
+            Go Back Home
+        </a>
+    </div>
+</div>
+{% endblock %}

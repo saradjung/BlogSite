@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
-from .models import Post, Comment, Like, Bookmark
+from .models import Post, Comment, Like, Bookmark, Tag
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.shortcuts import render, get_object_or_404, redirect
@@ -120,3 +120,18 @@ def author_posts(request, username):
     author = get_object_or_404(User, username=username)
     posts = Post.objects.filter(author=author.username)  # Filter by author username
     return render(request, 'author_posts.html', {'author': author, 'posts': posts})
+
+def tag_list(request):
+    tags = Tag.objects.all()
+    return render(request, 'all_tags.html', {"tags":tags})
+
+def posts_by_tag(request, tag_name):
+    try:
+        tag = Tag.objects.get(name=tag_name)
+        posts = tag.posts.all()
+        return render(request, 'posts_by_tag.html', {'tag': tag, 'posts': posts})
+    except:
+        return redirect('error')
+    
+def error(request):
+    return render(request,'error.html')
