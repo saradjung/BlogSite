@@ -3,86 +3,101 @@
 {% block title %}{{ post.title }}{% endblock %}
 
 {% block content %}
-<div class="max-w-3xl mx-auto bg-white p-6 rounded-lg shadow-md mt-20">
-      <!-- Back to Home Link -->
-      <a href="{% url 'home' %}" class="text-sm text-blue-500 hover:underline">&larr; Back to Home</a>
-    <h1 class="text-3xl font-bold text-gray-800">{{ post.title }}</h1>
-
-
-    <p class="text-gray-600 text-sm mt-2">
-        By <a href="{% url 'author_posts' username=post.author %}" class="font-semibold hover:underline">{{ post.author }}</a> • 
-        Published on <span class="text-blue-500">{{ post.created_at|date:"F d, Y" }}</span>
-    </p>
-    <hr class="my-4">
-    {% if post.image %}
-        <img src="{{ post.image.url }}" alt="Blog Image" class="w-full h-auto rounded-lg shadow-md mt-4">
-    {% endif %}
-
-    <p class="text-lg text-gray-700 mt-4">
-        {{ post.content }}
-    </p>
-
-    <!-- Like, Comment and Bookmark Section -->
-    <div class="mt-6 flex items-center space-x-4">
-        <!-- Like Button -->
-        <form action="{% url 'like_post' post.id %}" method="POST">
-            {% csrf_token %}
-            <button type="submit" class="px-6 py-3 bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-full shadow-md transition-all duration-300 ease-in-out transform hover:scale-105 hover:from-blue-600 hover:to-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-400">
-                ❤️ Like ({{ post.total_likes }})
-            </button>
-        </form>
-    
-        <!-- Comment Button -->
-        <a href="#comment-section" class="px-6 py-3 bg-gradient-to-r from-green-500 to-green-600 text-white rounded-full shadow-md transition-all duration-300 ease-in-out transform hover:scale-105 hover:from-green-600 hover:to-green-700 focus:outline-none focus:ring-2 focus:ring-green-400">
-            💬 Comment
-        </a>
-    
-        {% if user.is_authenticated %}
-            <form action="{% url 'bookmark_post' post.id %}" method="POST">
-                {% csrf_token %}
-                <button type="submit" class="px-6 py-3 bg-gradient-to-r from-purple-500 to-purple-600 text-white rounded-full shadow-md transition-all duration-300 ease-in-out transform hover:scale-105 hover:from-purple-600 hover:to-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-400">
-                    {% if has_bookmarked %}
-                        <span class="text-xl">⭐</span> <!-- Star Emoji -->
-                        <span>Unbookmark</span>
-                    {% else %}
-                        <span class="text-xl">🌟</span> <!-- Star Emoji -->
-                        <span>Bookmark</span>
-                    {% endif %}
-                </button>
-            </form>
-        {% endif %}
-    </div>
-    
-
-    <hr class="my-6">
-
-    <!-- Comment Section -->
-    <div id="comment-section" class="mt-6">
-        <h2 class="text-xl font-semibold">Discussion about this post</h2>
-        
-        {% if user.is_authenticated %}
-        <form action="{% url 'add_comment' post.id%}" method="POST" class="mt-4">
-            {% csrf_token %}
-            <textarea name="content" class="w-full p-2 border rounded" placeholder="Write a comment..." required></textarea>
-            <button type="submit" class="mt-2 px-4 py-2 bg-green-500 text-white rounded">Post Comment</button>
-        </form>
-        {% else %}
-        <p><a href="{% url 'login' %}" class="text-blue-500">Log in</a> to comment.</p>
-        {% endif %}
-
-        <!-- Display Comments -->
-        <div class="mt-4">
-            {% for comment in post.comments.all %}
-                <div class="border-b pb-2 mb-2">
-                    <p class="text-sm text-gray-600"><strong>{{ comment.user.username }}</strong> • {{ comment.created_at|date:"F d, Y" }}</p>
-                    <p class="text-gray-800">{{ comment.content }}</p>
+<div class="container mx-auto flex flex-col md:flex-row gap-0">  <div class="md:w-2/3">
+        <div class="max-w-3xl mx-auto bg-white p-6 rounded-lg shadow-md mt-20" style="margin-right: 2.5rem;">
+            <a href="{% url 'home' %}" class="text-sm text-blue-500 hover:underline">&larr; Back to Home</a>
+            <h1 class="text-3xl font-bold text-gray-800">{{ post.title }}</h1>
+            <p class="text-gray-600 text-sm mt-2">
+                By <a href="{% url 'author_posts' username=post.author %}" class="font-semibold hover:underline">{{ post.author }}</a> • 
+                Published on <span class="text-blue-500">{{ post.created_at|date:"F d, Y" }}</span>
+            </p>
+            <hr class="my-4">
+            {% if post.image %}
+                <img src="{{ post.image.url }}" alt="Blog Image" class="w-full h-auto rounded-lg shadow-md mt-4">
+            {% endif %}
+            <p class="text-lg text-gray-700 mt-4">
+                {{ post.content }}
+            </p>
+            <div class="mt-6 flex items-center space-x-4">
+                <form action="{% url 'like_post' post.id %}" method="POST">
+                    {% csrf_token %}
+                    <button type="submit" class="px-6 py-3 bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-full shadow-md transition-all duration-300 ease-in-out transform hover:scale-105 hover:from-blue-600 hover:to-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-400">
+                        ❤️ Like ({{ post.total_likes }})
+                    </button>
+                </form>
+                <a href="#comment-section" class="px-6 py-3 bg-gradient-to-r from-green-500 to-green-600 text-white rounded-full shadow-md transition-all duration-300 ease-in-out transform hover:scale-105 hover:from-green-600 hover:to-green-700 focus:outline-none focus:ring-2 focus:ring-green-400">
+                    💬 Comment
+                </a>
+                {% if user.is_authenticated %}
+                    <form action="{% url 'bookmark_post' post.id %}" method="POST">
+                        {% csrf_token %}
+                        <button type="submit" class="px-6 py-3 bg-gradient-to-r from-purple-500 to-purple-600 text-white rounded-full shadow-md transition-all duration-300 ease-in-out transform hover:scale-105 hover:from-purple-600 hover:to-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-400">
+                            {% if has_bookmarked %}
+                                <span class="text-xl">⭐</span> <span>Unbookmark</span>
+                            {% else %}
+                                <span class="text-xl">🌟</span> <span>Bookmark</span>
+                            {% endif %}
+                        </button>
+                    </form>
+                {% endif %}
+            </div>
+            <hr class="my-6">
+            <div id="comment-section" class="mt-6">
+                <h2 class="text-xl font-semibold">Discussion about this post</h2>
+                {% if user.is_authenticated %}
+                    <form action="{% url 'add_comment' post.id %}" method="POST" class="mt-4">
+                        {% csrf_token %}
+                        <textarea name="content" class="w-full p-2 border rounded" placeholder="Write a comment..." required></textarea>
+                        <button type="submit" class="mt-2 px-4 py-2 bg-green-500 text-white rounded">Post Comment</button>
+                    </form>
+                {% else %}
+                    <p><a href="{% url 'login' %}" class="text-blue-500">Log in</a> to comment.</p>
+                {% endif %}
+                <div class="mt-4">
+                    {% for comment in post.comments.all %}
+                        <div class="border-b pb-2 mb-2">
+                            <p class="text-sm text-gray-600"><strong>{{ comment.user.username }}</strong> • {{ comment.created_at|date:"F d, Y" }}</p>
+                            <p class="text-gray-800">{{ comment.content }}</p>
+                        </div>
+                    {% empty %}
+                        <p class="text-gray-500">No comments yet.</p>
+                    {% endfor %}
                 </div>
-            {% empty %}
-                <p class="text-gray-500">No comments yet.</p>
-            {% endfor %}
+            </div>
         </div>
     </div>
-
-    
+    <aside class="md:w-1/3 space-y-8 mt-[100px]" >  <div class="bg-white p-4 shadow-lg rounded-lg">
+            <h3 class="text-xl font-semibold text-center border-b pb-2">Top Authors</h3>
+            <div class="space-y-4 mt-4">
+                {% for author_data in top_authors %}
+                {% if author_data.author %}
+                    <a href="{% url 'author_posts' username=author_data.author %}" class="flex items-center space-x-4 hover:bg-gray-100 p-2 rounded-lg">
+                        <div class="w-12 h-12 flex justify-center items-center bg-gray-300 rounded-full border-2 border-indigo-500">
+                            <!-- User Icon SVG -->
+                            <svg class="w-8 h-8 text-gray-600" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd" d="M12 2a5 5 0 1 1 0 10 5 5 0 0 1 0-10ZM4 18a8 8 0 1 1 16 0v2H4v-2Z" clip-rule="evenodd"></path>
+                            </svg>
+                        </div>
+                        <div>
+                            <p class="font-semibold">{{ author_data.author }}</p>
+                            <span class="text-sm text-indigo-500">Learn more →</span>
+                        </div>
+                    </a>
+                {% endif %}
+            {% endfor %}
+            
+            </div>
+        </div>
+        <div class="bg-white p-4 shadow-lg rounded-lg">
+            <h3 class="text-xl font-semibold text-center border-b pb-2">Top Tags</h3>
+            <div class="flex flex-wrap gap-2 mt-4">
+                {% for tag in top_tags %}
+                    <a href="{% url 'tag_name' tag.name %}" class="bg-indigo-500 text-white px-3 py-1 rounded-full text-sm hover:bg-indigo-600">
+                        {{ tag.name }}
+                    </a>
+                {% endfor %}
+            </div>
+        </div>
+    </aside>
 </div>
 {% endblock %}

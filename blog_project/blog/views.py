@@ -7,6 +7,8 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 from .forms import CustomUserCreationForm
 from django.contrib.auth.models import User
+from django.db import models
+from django.db.models import Count
 # Create your views here.
 
 def home(request):
@@ -15,11 +17,22 @@ def home(request):
 
 def getBlog(request, post_id):
     post = Post.objects.get(id=post_id)
+
+     # Fetch top authors (users who have written the most posts)
+    top_authors = (Post.objects.values('author')  # Group by author (username)
+    .annotate(post_count=Count('id'))  # Count posts per author
+    .order_by('-post_count')[:3]  # Get top 3 authors
+                )
+
+      # Fetch top tags (modify logic based on your tag model)
+    top_tags = Tag.objects.all()
+
     if request.user.is_authenticated:
         has_bookmarked = Bookmark.objects.filter(user=request.user, post=post).exists()
     else:
         has_bookmarked = False
-    return render(request, 'singleblog.html',{'post':post, 'has_bookmarked':has_bookmarked,})
+    return render(request, 'singleblog.html',{'post':post, 'has_bookmarked':has_bookmarked, 'top_authors': top_authors,
+        'top_tags': top_tags})
 
 @login_required(login_url='/login/')
 def postBlog(request):
