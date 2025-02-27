@@ -16,11 +16,11 @@
 <body class="flex flex-col min-h-screen">
     
     {% if messages %}
-    {% for message in messages %}
-        <p style="color: {% if message.tags == 'success' %}green{% else %}red{% endif %};">
-            {{ message }}
-        </p>
-    {% endfor %}
+        {% for message in messages %}
+            <p style="color: {% if message.tags == 'success' %}green{% else %}red{% endif %};">
+                {{ message }}
+            </p>
+        {% endfor %}
     {% endif %}
 
 <!-- templates/navbar.html -->
@@ -72,47 +72,60 @@
 
 {% block content %}
 {% endblock %}
-<footer class="bg-black text-gray-400 py-8 mt-9 ">
-    <div class="container mx-auto px-4">
-        <hr class="border-gray-700 mb-6">
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <div class="flex flex-col md:flex-row md:items-start md:space-x-40">
-                <div>
-                    <h3 class="text-5xl font-semibold mb-3 text-blue-500">
-                        <a href="{% url 'home' %}" class="hover">MyBlog</a>
-                    </h3>
-                    <p class="text-sm mb-4">Share Your Thoughts</p>
-                    <div class="flex space-x-4 mb-4">
-                        <a href="https://www.facebook.com/profile.php?id=100036591739321" class="hover:text-white"><i class="fab fa-facebook-f"></i></a>
-                        <a href="#" class="hover:text-white"><i class="fab fa-instagram"></i></a>
-                        <a href="#" class="hover:text-white"><i class="fab fa-linkedin-in"></i></a>
-                        <a href="#" class="hover:text-white"><i class="fab fa-github"></i></a>
-                    </div>
+<footer class="bg-gray-900 text-gray-300 py-12 mt-16">
+    <div class="container mx-auto px-6">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
+            <!-- Brand & About -->
+            <div class="flex flex-col space-y-4">
+                <h3 class="text-4xl font-bold text-white">
+                    <a href="{% url 'home' %}" class="hover:text-blue-400 transition duration-300">MyBlog</a>
+                </h3>
+                <p class="text-gray-400 text-sm">Express your ideas, share your thoughts, and inspire the world.</p>
+                <div class="flex space-x-5 mt-2">
+                    <a href="https://www.facebook.com" class="text-gray-400 hover:text-blue-500 transition">
+                        <i class="fab fa-facebook-f text-2xl"></i>
+                    </a>
+                    <a href="https://www.instagram.com" class="text-gray-400 hover:text-pink-500 transition">
+                        <i class="fab fa-instagram text-2xl"></i>
+                    </a>
+                    <a href="https://www.linkedin.com" class="text-gray-400 hover:text-blue-400 transition">
+                        <i class="fab fa-linkedin-in text-2xl"></i>
+                    </a>
+                    <a href="https://www.github.com" class="text-gray-400 hover:text-gray-300 transition">
+                        <i class="fab fa-github text-2xl"></i>
+                    </a>
                 </div>
             </div>
-            <div class="grid grid-cols-2 gap-8 ml-16">
-                <div >
-                    <h3 class="text-lg font-semibold mb-4">Quick Links</h3>
-                    <ul class="space-y-2">
-                        <li><a href="{% url 'home' %}" class="hover:text-white">Home</a></li>
-                        <li><a href="{% url 'about' %}" class="hover:text-white">About</a></li>
-                        <li><a href="{% url 'contact' %}" class="hover:text-white">Contact</a></li>
-                    </ul>
-                </div>
-                <div>
-                    <h3 class="text-lg font-semibold mb-4">Account</h3>
-                    <ul class="space-y-2">
-                        {% if user.is_authenticated %}
-                            <li><a href="{% url 'logout' %}" class="hover:text-white">Logout</a></li>
-                        {% else %}
-                            <li><a href="{% url 'login' %}" class="hover:text-white">Login</a></li>
-                            <li><a href="{% url 'signup' %}" class="hover:text-white">Signup</a></li>
-                        {% endif %}
-                    </ul>
-                </div>
+
+            <!-- Quick Links -->
+            <div class="flex flex-col space-y-4">
+                <h3 class="text-lg font-semibold text-white">Quick Links</h3>
+                <ul class="space-y-2">
+                    <li><a href="{% url 'home' %}" class="hover:text-blue-400 transition duration-300">Home</a></li>
+                    <li><a href="{% url 'about' %}" class="hover:text-blue-400 transition duration-300">About</a></li>
+                    <li><a href="{% url 'contact' %}" class="hover:text-blue-400 transition duration-300">Contact</a></li>
+                </ul>
+            </div>
+
+            <!-- Account Section -->
+            <div class="flex flex-col space-y-4">
+                <h3 class="text-lg font-semibold text-white">Account</h3>
+                <ul class="space-y-2">
+                    {% if user.is_authenticated %}
+                        <li><a href="{% url 'logout' %}" class="hover:text-blue-400 transition duration-300">Logout</a></li>
+                    {% else %}
+                        <li><a href="{% url 'login' %}" class="hover:text-blue-400 transition duration-300">Login</a></li>
+                        <li><a href="{% url 'signup' %}" class="hover:text-blue-400 transition duration-300">Signup</a></li>
+                    {% endif %}
+                </ul>
             </div>
         </div>
-        <div class="mt-8 text-center">
+
+        <!-- Divider Line -->
+        <hr class="border-gray-700 my-10">
+
+        <!-- Copyright -->
+        <div class="text-center text-gray-500 text-sm">
             <p>&copy; 2025 MyBlog. All rights reserved.</p>
         </div>
     </div>

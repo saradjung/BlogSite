@@ -26,16 +26,14 @@
     </div>
 </div>
 
-<div class="flex justify-center mt-10">
-    <div class="bg-black text-white p-6 rounded-lg shadow-lg text-center">
-        <p class="mb-3 text-lg">Want to share your thoughts?</p>
-        <p class="text-gray-300 text-sm mb-4">Click below to write and post your blog.</p>
-        <a href="{%url 'postblog' %}" class="bg-red-500 text-white px-6 py-3 rounded-lg font-bold shadow-md 
-           hover:bg-red-600 transform hover:scale-105 transition">
+<div class="flex justify-center mt-16">
+    <div class="bg-gradient-to-r from-purple-500 via-blue-500 to-teal-500 text-white p-8 rounded-xl shadow-2xl text-center hover:scale-105 transform transition-all">
+        <p class="mb-4 text-2xl font-semibold">Want to share your thoughts?</p>
+        <p class="text-gray-200 text-base mb-6">Click below to write and post your blog.</p>
+        <a href="{% url 'postblog' %}" class="bg-white text-black px-8 py-4 rounded-lg font-semibold shadow-lg transition-colors hover:bg-gray-100 hover:text-blue-500 transform transition duration-300 ease-in-out">
             Post Your Blog
         </a>
     </div>
 </div>
-
 
 {% endblock %}
