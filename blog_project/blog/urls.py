@@ -17,5 +17,6 @@ urlpatterns = [
     path('author/<str:username>/', views.author_posts, name='author_posts'),
     path('tags/', views.tag_list, name='tag_list'),
     path('tag/<str:tag_name>', views.posts_by_tag, name='tag_name'),
+    path('allblogs/',views.all_blogs, name='all_blogs'),
     path('error',views.error, name='error'),
 ]

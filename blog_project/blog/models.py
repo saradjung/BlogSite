@@ -17,6 +17,7 @@ class Post(models.Model):
     updated_at=models.DateTimeField(auto_now=True)
     image = models.ImageField(upload_to='blog_images/', null=True, blank=True)
     tags = models.ManyToManyField(Tag, related_name='posts', blank=True)
+    views = models.PositiveIntegerField(default=0)
     
     def __str__(self):
         return self.title

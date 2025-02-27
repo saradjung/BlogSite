@@ -1,41 +1,46 @@
 {% extends 'base.html' %}
 {% block content %}
-<div class="container mx-auto pt-20 px-4">
-    <h1 class="text-center text-3xl font-bold text-blue-600 mb-10">Welcome to Our Blog</h1>
-
-    <!-- Blog Posts Section -->
-    <div class="grid md:grid-cols-3 gap-6">
-        {% for post in posts %}
-        <div class="bg-white rounded-2xl shadow-lg overflow-hidden transition-transform transform hover:scale-105 hover:shadow-xl">
-            
+<div class="relative h-screen bg-cover bg-center" 
+     style="background-image: url('https://images.pexels.com/photos/14760650/pexels-photo-14760650.jpeg?auto=compress&cs=tinysrgb&w=600');">
+    <div class="absolute inset-0 bg-opacity-50 flex flex-col justify-center items-center text-center">
+        <h1 class="text-white text-5xl md:text-7xl font-bold">Welcome to Our Blog</h1>
+        <p class="text-white text-lg md:text-2xl mt-4">Discover insights, stories, and inspiration</p>
+        <a href="#blog-section" 
+           class="mt-6 px-6 py-3 bg-blue-600 text-white rounded-lg text-lg transition hover:bg-blue-700">
+            Explore Blogs
+        </a>
+    </div>
+</div>
+<div id="blog-section" class="container mx-auto px-4 pt-10">
+    <h2 class="text-2xl font-bold mb-4">Recent Posts</h2>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        {% for post in recent_posts %}
+        <div class="bg-white shadow-md rounded-lg p-4">
             {% if post.image %}
             <img src="{{ post.image.url }}" alt="Post Image" class="w-full h-48 object-cover">
             {% else %}
             <img src="https://via.placeholder.com/300" alt="No Image" class="w-full h-48 object-cover">
             {% endif %}
-
-            <div class="p-4">
-                <h2 class="text-xl font-semibold text-gray-800 mt-2">{{ post.title }}</h2>
-                <p class="text-gray-700">{{ post.content|truncatechars:100 }}</p>
-                <a href="{% url 'blog' post.id %}" class="text-blue-500 hover:underline">Read More...</a>
-            </div>
+            <h3 class="text-xl font-semibold mt-2">{{ post.title }}</h3>
+            <p class="text-gray-600">{{ post.created_at|date:"M d, Y" }}</p>
+            <a href="{% url 'blog' post.id %}" class="text-blue-500 mt-2 inline-block">Read More</a>
         </div>
-        {% empty %}
-        <p class="col-span-3 text-center text-gray-500">No posts available.</p>
+        {% endfor %}
+    </div>
+
+    <h2 class="text-2xl font-bold mt-8 mb-4">Popular Posts</h2>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        {% for post in popular_posts %}
+        <div class="bg-white shadow-md rounded-lg p-4">
+            {% if post.image %}
+            <img src="{{ post.image.url }}" alt="Post Image" class="w-full h-48 object-cover">
+            {% else %}
+            <img src="https://via.placeholder.com/300" alt="No Image" class="w-full h-48 object-cover">
+            {% endif %}
+            <h3 class="text-xl font-semibold mt-2">{{ post.title }}</h3>
+            <a href="{% url 'blog' post.id %}" class="text-blue-500 mt-2 inline-block">Read More</a>
+        </div>
         {% endfor %}
     </div>
 </div>
-
-<div class="flex justify-center mt-10">
-    <div class="bg-black text-white p-6 rounded-lg shadow-lg text-center">
-        <p class="mb-3 text-lg">Want to share your thoughts?</p>
-        <p class="text-gray-300 text-sm mb-4">Click below to write and post your blog.</p>
-        <a href="{%url 'postblog' %}" class="bg-red-500 text-white px-6 py-3 rounded-lg font-bold shadow-md 
-           hover:bg-red-600 transform hover:scale-105 transition">
-            Post Your Blog
-        </a>
-    </div>
-</div>
-
-
 {% endblock %}

@@ -12,11 +12,14 @@ from django.db.models import Count
 # Create your views here.
 
 def home(request):
-    posts=Post.objects.all()
-    return render(request,'home.html',{'posts':posts})
+    recent_posts = Post.objects.order_by('-created_at')[:3]
+    popular_posts = Post.objects.order_by('-views')[:3]
+    return render(request,'home.html',{'recent_posts':recent_posts, 'popular_posts':popular_posts,})
 
 def getBlog(request, post_id):
     post = Post.objects.get(id=post_id)
+    post.views += 1
+    post.save(update_fields=['views'])
 
      # Fetch top authors (users who have written the most posts)
     top_authors = (Post.objects.values('author')  # Group by author (username)
@@ -33,6 +36,10 @@ def getBlog(request, post_id):
         has_bookmarked = False
     return render(request, 'singleblog.html',{'post':post, 'has_bookmarked':has_bookmarked, 'top_authors': top_authors,
         'top_tags': top_tags})
+
+def all_blogs(request):
+    posts=Post.objects.all()
+    return render(request,'all_blog.html',{'posts':posts})
 
 @login_required(login_url='/login/')
 def postBlog(request):

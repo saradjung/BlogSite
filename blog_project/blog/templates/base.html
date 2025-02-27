@@ -7,6 +7,11 @@
     <title>My Blog</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        html {
+            scroll-behavior: smooth;
+        }
+    </style>
 </head>
 <body class="flex flex-col min-h-screen">
     
@@ -27,6 +32,7 @@
         <!-- Nav Links (Centered) -->
         <div class="flex-1 text-center">
             <a href="{%url 'home'%}" class="text-gray-800 hover:text-blue-600 mx-4 transition">Home</a>
+            <a href="{%url 'all_blogs'%}" class="text-gray-800 hover:text-blue-600 mx-4 transition">All Blogs</a>
             <a href="{%url 'about'%}" class="text-gray-800 hover:text-blue-600 mx-4 transition">About</a>
             <a href="{%url 'contact'%}" class="text-gray-800 hover:text-blue-600 mx-4 transition">Contact</a>
             {%if user.is_authenticated%}
