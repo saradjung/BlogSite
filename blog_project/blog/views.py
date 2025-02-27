@@ -17,14 +17,16 @@ def home(request):
     return render(request,'home.html',{'recent_posts':recent_posts, 'popular_posts':popular_posts,})
 
 def search(request):
-    query = request.GET.get('q', '')
+    query = request.GET.get('q', None)
     if query:
         posts = Post.objects.filter(
             Q(title__icontains=query) |
             Q(content__icontains=query) |
             Q(tags__name__icontains=query) |
             Q(author__icontains=query) 
-        ).distinct() if query else None
+        ).distinct()
+    else:
+        return redirect('home')
     return render(request, 'search.html', {'posts': posts, 'query': query})
 
 def getBlog(request, post_id):
