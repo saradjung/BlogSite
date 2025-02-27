@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="min-h-screen bg-white pt-20 pb-10">
+    <div class="max-w-4xl mx-auto text-center">
+        <h1 class="text-4xl font-extrabold text-blue-900 mb-6">Search Results</h1>
+        <p class="text-gray-700 text-lg">Showing results for: <span class="text-blue-600 font-semibold">"{{ query }}"</span></p>
+    </div>
+
+    <div class="max-w-4xl mx-auto mt-6">
+        {% if posts %}
+            <div class="grid gap-6">
+                {% for post in posts %}
+                <div class="bg-gray-100 shadow-lg rounded-xl p-6 hover:scale-[1.02] transition duration-300">
+                    <a href="{% url 'blog' post.id %}" class="block">
+                        {% if post.image %}
+                            <img src="{{ post.image.url }}" alt="{{ post.title }}" class="w-full h-48 object-cover rounded-xl">
+                        {% endif %}
+                        <h2 class="text-2xl font-bold text-blue-900 mt-4">{{ post.title }}</h2>
+                        <p class="text-gray-700 mt-2">By <span class="font-semibold text-blue-600">{{ post.author }}</span></p>
+                        <p class="text-sm text-gray-500 mt-2">Published on {{ post.created_at|date:"M d, Y" }}</p>
+                        <p class="text-gray-700 mt-3 line-clamp-2">{{ post.content|truncatewords:20 }}</p>
+                    </a>
+                    <div class="mt-4">
+                        {% for tag in post.tags.all %}
+                            <span class="inline-block bg-blue-500 text-white text-sm px-3 py-1 rounded-full mr-2">#{{ tag.name }}</span>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="text-center mt-10">
+                <p class="text-gray-700 text-lg">No results.</p>
+                <img src="https://i.imgur.com/tPBtFZqb.jpg" alt="No results" class="mx-auto w-64 mt-4">
+            </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

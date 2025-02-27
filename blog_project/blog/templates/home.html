@@ -2,15 +2,23 @@
 {% block content %}
 <div class="relative h-screen bg-cover bg-center" 
      style="background-image: url('https://images.pexels.com/photos/14760650/pexels-photo-14760650.jpeg?auto=compress&cs=tinysrgb&w=600');">
-    <div class="absolute inset-0 bg-opacity-50 flex flex-col justify-center items-center text-center">
-        <h1 class="text-white text-5xl md:text-7xl font-bold">Welcome to Our Blog</h1>
-        <p class="text-white text-lg md:text-2xl mt-4">Discover insights, stories, and inspiration</p>
+    <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent flex flex-col justify-center items-center text-center px-4 md:px-8">
+        <h1 class="text-white text-4xl sm:text-5xl md:text-6xl font-bold mb-4 drop-shadow-lg">Welcome to Our Blog</h1>
+        <p class="text-white text-lg sm:text-xl md:text-2xl mb-6 max-w-3xl mx-auto drop-shadow-lg">Discover insights, stories, and inspiration</p>
+        <form action="{% url 'search' %}" method="GET" class="flex items-center max-w-md w-full bg-white rounded-full shadow-lg overflow-hidden">
+            <input type="text" name="q" placeholder="Search..." value="{{ query }}" 
+                   class="w-full py-3 px-4 text-lg border-none focus:outline-none focus:ring-2 focus:ring-blue-500 rounded-l-full">
+            <button type="submit" class="bg-blue-600 text-white px-6 py-3 text-lg font-semibold rounded-r-full hover:bg-blue-700 transition-all duration-300">
+                Search
+            </button>
+        </form>
         <a href="#blog-section" 
-           class="mt-6 px-6 py-3 bg-blue-600 text-white rounded-lg text-lg transition hover:bg-blue-700">
+           class="mt-8 px-8 py-3 bg-blue-600 text-white rounded-full text-lg font-semibold transition-all duration-300 hover:bg-blue-700 transform hover:scale-105">
             Explore Blogs
-        </a>
+        </a>      
     </div>
 </div>
+
 
 <div class="flex justify-center mt-16">
     <div class="bg-gradient-to-r from-purple-500 via-blue-500 to-teal-500 text-white p-8 rounded-xl shadow-2xl text-center hover:scale-105 transform transition-all">

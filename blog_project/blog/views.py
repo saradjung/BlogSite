@@ -8,13 +8,24 @@ from django.contrib.auth.decorators import login_required
 from .forms import CustomUserCreationForm
 from django.contrib.auth.models import User
 from django.db import models
-from django.db.models import Count
+from django.db.models import Count, Q
 # Create your views here.
 
 def home(request):
     recent_posts = Post.objects.order_by('-created_at')[:3]
     popular_posts = Post.objects.order_by('-views')[:3]
     return render(request,'home.html',{'recent_posts':recent_posts, 'popular_posts':popular_posts,})
+
+def search(request):
+    query = request.GET.get('q', '')
+    if query:
+        posts = Post.objects.filter(
+            Q(title__icontains=query) |
+            Q(content__icontains=query) |
+            Q(tags__name__icontains=query) |
+            Q(author__icontains=query) 
+        ).distinct() if query else None
+    return render(request, 'search.html', {'posts': posts, 'query': query})
 
 def getBlog(request, post_id):
     post = Post.objects.get(id=post_id)
