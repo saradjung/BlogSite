@@ -16,12 +16,21 @@
 <body class="flex flex-col min-h-screen">
     
     {% if messages %}
+    <div id="messages-container" class="fixed top-5 right-5 z-50 space-y-3">
         {% for message in messages %}
-            <p style="color: {% if message.tags == 'success' %}green{% else %}red{% endif %};">
-                {{ message }}
-            </p>
+            <div class="flex items-center justify-between px-4 py-3 rounded-lg shadow-lg 
+                {% if message.tags == 'success' %} bg-green-500 text-white 
+                {% else %} bg-red-500 text-white 
+                {% endif %}">
+                <span>{{ message }}</span>
+                <button class="ml-4 text-xl font-bold focus:outline-none" onclick="this.parentElement.remove();">
+                    &times;
+                </button>
+            </div>
         {% endfor %}
-    {% endif %}
+    </div>
+{% endif %}
+
 
 <!-- templates/navbar.html -->
 <nav class="absolute top-0 left-0 w-full p-4 bg-transparent z-10">
