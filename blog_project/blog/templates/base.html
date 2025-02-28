@@ -72,57 +72,60 @@
 
 {% block content %}
 {% endblock %}
-<footer class="bg-gray-900 text-gray-300 py-12 mt-16">
+<footer class="bg-gray-900 text-gray-300 py-8 mt-16">
     <div class="container mx-auto px-6">
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
+        <div class="flex flex-col md:flex-row justify-between gap-8">
             <!-- Brand & About -->
-            <div class="flex flex-col space-y-4">
-                <h3 class="text-4xl font-bold text-white">
+            <div class="flex flex-col space-y-3">
+                <h3 class="text-3xl font-bold text-white">
                     <a href="{% url 'home' %}" class="hover:text-blue-400 transition duration-300">MyBlog</a>
                 </h3>
                 <p class="text-gray-400 text-sm">Express your ideas, share your thoughts, and inspire the world.</p>
-                <div class="flex space-x-5 mt-2">
+                <div class="flex space-x-4 mt-2">
                     <a href="https://www.facebook.com" class="text-gray-400 hover:text-blue-500 transition">
-                        <i class="fab fa-facebook-f text-2xl"></i>
+                        <i class="fab fa-facebook-f text-xl"></i>
                     </a>
                     <a href="https://www.instagram.com" class="text-gray-400 hover:text-pink-500 transition">
-                        <i class="fab fa-instagram text-2xl"></i>
+                        <i class="fab fa-instagram text-xl"></i>
                     </a>
                     <a href="https://www.linkedin.com" class="text-gray-400 hover:text-blue-400 transition">
-                        <i class="fab fa-linkedin-in text-2xl"></i>
+                        <i class="fab fa-linkedin-in text-xl"></i>
                     </a>
                     <a href="https://www.github.com" class="text-gray-400 hover:text-gray-300 transition">
-                        <i class="fab fa-github text-2xl"></i>
+                        <i class="fab fa-github text-xl"></i>
                     </a>
                 </div>
             </div>
 
-            <!-- Quick Links -->
-            <div class="flex flex-col space-y-4">
-                <h3 class="text-lg font-semibold text-white">Quick Links</h3>
-                <ul class="space-y-2">
-                    <li><a href="{% url 'home' %}" class="hover:text-blue-400 transition duration-300">Home</a></li>
-                    <li><a href="{% url 'about' %}" class="hover:text-blue-400 transition duration-300">About</a></li>
-                    <li><a href="{% url 'contact' %}" class="hover:text-blue-400 transition duration-300">Contact</a></li>
-                </ul>
-            </div>
+            <!-- Quick Links & Account (Grouped + Pushed Right) -->
+            <div class="grid grid-cols-2 md:grid-cols-3 gap-x-40 justify-center md:justify-end">
+                <!-- Quick Links -->
+                <div class="flex flex-col space-y-2">
+                    <h3 class="text-lg font-semibold text-white">Quick Links</h3>
+                    <ul class="space-y-1 text-sm">
+                        <li><a href="{% url 'home' %}" class="hover:text-blue-400 transition duration-300">Home</a></li>
+                        <li><a href="{% url 'about' %}" class="hover:text-blue-400 transition duration-300">About</a></li>
+                        <li><a href="{% url 'contact' %}" class="hover:text-blue-400 transition duration-300">Contact</a></li>
+                    </ul>
+                </div>
 
-            <!-- Account Section -->
-            <div class="flex flex-col space-y-4">
-                <h3 class="text-lg font-semibold text-white">Account</h3>
-                <ul class="space-y-2">
-                    {% if user.is_authenticated %}
-                        <li><a href="{% url 'logout' %}" class="hover:text-blue-400 transition duration-300">Logout</a></li>
-                    {% else %}
-                        <li><a href="{% url 'login' %}" class="hover:text-blue-400 transition duration-300">Login</a></li>
-                        <li><a href="{% url 'signup' %}" class="hover:text-blue-400 transition duration-300">Signup</a></li>
-                    {% endif %}
-                </ul>
+                <!-- Account Section -->
+                <div class="flex flex-col space-y-2">
+                    <h3 class="text-lg font-semibold text-white">Account</h3>
+                    <ul class="space-y-1 text-sm">
+                        {% if user.is_authenticated %}
+                            <li><a href="{% url 'logout' %}" class="hover:text-blue-400 transition duration-300">Logout</a></li>
+                        {% else %}
+                            <li><a href="{% url 'login' %}" class="hover:text-blue-400 transition duration-300">Login</a></li>
+                            <li><a href="{% url 'signup' %}" class="hover:text-blue-400 transition duration-300">Signup</a></li>
+                        {% endif %}
+                    </ul>
+                </div>
             </div>
         </div>
 
         <!-- Divider Line -->
-        <hr class="border-gray-700 my-10">
+        <hr class="border-gray-700 my-6">
 
         <!-- Copyright -->
         <div class="text-center text-gray-500 text-sm">
@@ -130,6 +133,7 @@
         </div>
     </div>
 </footer>
+
 
 </body>
 </html>
