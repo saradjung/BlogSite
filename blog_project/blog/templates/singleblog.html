@@ -1,5 +1,4 @@
 {% extends 'base.html' %}
-
 {% block title %}{{ post.title }}{% endblock %}
 
 {% block content %}
@@ -16,7 +15,7 @@
                 <img src="{{ post.image.url }}" alt="Blog Image" class="w-full h-auto rounded-lg shadow-md mt-4">
             {% endif %}
             <p class="text-lg text-gray-700 mt-4">
-                {{ post.content }}
+                {{ post.content|linebreaks }}
             </p>
             <div class="mt-6 flex items-center space-x-4">
                 <form action="{% url 'like_post' post.id %}" method="POST">
