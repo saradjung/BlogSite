@@ -172,3 +172,11 @@ def posts_by_tag(request, tag_name):
     
 def error(request):
     return render(request,'error.html')
+
+def recent_posts(request):
+    recent_post=Post.objects.order_by('-created_at')
+    return render(request,"recent_posts.html",{'recent_post':recent_post})
+
+def popular_posts(request):
+    popular_post=Post.objects.order_by('-views')
+    return render(request,'popular_posts.html',{'popular_post':popular_post})

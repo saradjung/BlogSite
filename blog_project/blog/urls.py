@@ -20,4 +20,6 @@ urlpatterns = [
     path('tag/<str:tag_name>', views.posts_by_tag, name='tag_name'),
     path('allblogs/',views.all_blogs, name='all_blogs'),
     path('error',views.error, name='error'),
+    path('recent/',views.recent_posts,name="recent_posts"),
+    path('popular/',views.popular_posts,name="popular_posts"),
 ]

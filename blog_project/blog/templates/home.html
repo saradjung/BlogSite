@@ -47,6 +47,12 @@
             </div>
         </div>
         {% endfor %}
+        
+    </div>
+    <div class="flex justify-center mt-7 pb-3">
+        <a href="{% url 'recent_posts' %}" class="bg-blue-500 text-white text-sm px-5 py-3 border-2 border-blue-500 rounded-full hover:bg-blue-600 transition">
+            View More →
+        </a>
     </div>
 
     <h2 class="text-2xl font-bold mt-8 mb-4">Popular Posts</h2>
@@ -60,12 +66,26 @@
             {% endif %}
             <div class="p-4">
                 <h3 class="text-xl font-semibold mt-2">{{ post.title }}</h3>
+                <p class="text-gray-600 flex items-center space-x-1">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+                    </svg>
+                    <span>{{ post.views }}</span>
+                </p>
+                
                 <p class="text-gray-600">{{ post.content|truncatechars:100 }}</p>
-                <p class="text-gray-600">Views: {{ post.views }}</p>
+                
                 <a href="{% url 'blog' post.id %}" class="text-blue-500 hover:underline">Read More...</a>
             </div>
         </div>
         {% endfor %}
+    </div>
+    <div class="flex justify-center mt-7 pb-3">
+        <a href="{% url 'popular_posts' %}" class="bg-blue-500 text-white text-sm px-5 py-3 border-2 border-blue-500 rounded-full hover:bg-blue-600 transition">
+            View More →
+            
+        </a>
     </div>
 </div>
 
