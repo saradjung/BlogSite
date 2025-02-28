@@ -116,7 +116,6 @@ def signup(request):
             return render(request, "signup.html", {"form": form}) 
     else:
         form=CustomUserCreationForm()
-
         return render(request,"signup.html",{"form":form})
 
 #adds comments on the blog post only if user is logged in   
