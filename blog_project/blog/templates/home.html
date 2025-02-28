@@ -1,7 +1,8 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block content %}
 <div class="relative h-screen bg-cover bg-center" 
-     style="background-image: url('https://images.pexels.com/photos/14760650/pexels-photo-14760650.jpeg?auto=compress&cs=tinysrgb&w=600');">
+     style="background-image: url('{% static 'images/homepage.jpeg' %}');">
     <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent flex flex-col justify-center items-center text-center px-4 md:px-8">
         <h1 class="text-white text-4xl sm:text-5xl md:text-6xl font-bold mb-4 drop-shadow-lg">Welcome to Our Blog</h1>
         <p class="text-white text-lg sm:text-xl md:text-2xl mb-6 max-w-3xl mx-auto drop-shadow-lg">Discover insights, stories, and inspiration</p>
