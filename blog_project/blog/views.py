@@ -54,21 +54,27 @@ def all_blogs(request):
     posts=Post.objects.all()
     return render(request,'all_blog.html',{'posts':posts})
 
+from django.shortcuts import render, redirect
+from django.contrib.auth.decorators import login_required
+from .forms import PostForm
+from .models import Tag
+
 @login_required(login_url='/login/')
 def postBlog(request):
-    if request.method == 'POST':
-        title = request.POST['title']
-        content = request.POST['content']
-        image = request.FILES.get('image')
-        author = request.user
-        selected_tags = request.POST.getlist('tags')
-        if title and content:
-            post = Post.objects.create(title=title, content=content, author=author, image=image)
-            post.tags.set(selected_tags)
-            return redirect('home')
+    if request.method == "POST":
+        form = PostForm(request.POST, request.FILES)  # Use the form to handle data
+        if form.is_valid():
+            post = form.save(commit=False)  # Create post but don't save yet
+            post.author = request.user  # Assign the logged-in user as the author
+            post.save()  # Save post to database
+            form.save_m2m()  # Save many-to-many relationships (tags)
+            return redirect("home")
     else:
-        tags = Tag.objects.all()
-        return render(request, 'postblog.html', {"tags":tags})
+        form = PostForm()
+
+    tags = Tag.objects.all()
+    return render(request, "postblog.html", {"form": form, "tags": tags})
+
 
 def about(request):
     return render(request, 'about.html')

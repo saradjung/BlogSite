@@ -1,7 +1,14 @@
 from django.contrib import admin
 from .models import *
+from django.db import models
+from ckeditor.widgets import CKEditorWidget
 # Register your models here.
-admin.site.register(Post)
+class PostAdmin(admin.ModelAdmin):
+    formfield_overrides = {
+        models.TextField: {'widget': CKEditorWidget()},
+    }
+admin.site.register(Post, PostAdmin)
+
 admin.site.register(Like)
 admin.site.register(Comment)
 admin.site.register(Bookmark)

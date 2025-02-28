@@ -1,13 +1,15 @@
 {% extends 'base.html' %}
 {% block content %}
-<div class="flex justify-center items-center min-h-screen">
+<div class="flex justify-center items-center min-h-screen mt-24">
     <form method="POST" enctype="multipart/form-data" class="bg-white p-8 shadow-lg rounded-lg w-1/2">
         {% csrf_token %}
+        {{ form.media }}  <!-- This loads CKEditor’s JS & CSS -->
+
         <label class="block mb-2">Title:</label>
-        <input type="text" name="title" class="w-full p-2 border rounded mb-4" required>
+        <input type="text" name="title" value="{{ form.title.value|default:'' }}" class="w-full p-2 border rounded mb-4" required>
 
         <label class="block mb-2">Content:</label>
-        <textarea name="content" class="w-full p-2 border rounded mb-4" rows="5" required></textarea>
+        {{ form.content }}  <!-- Use CKEditor directly for content -->
 
         <label class="block mb-2">Upload Image:</label>
         <input type="file" name="image" class="w-full p-2 border rounded mb-4">
@@ -16,7 +18,8 @@
         <div class="flex flex-wrap gap-2 mb-4">
             {% for tag in tags %}
                 <label class="flex items-center space-x-2 cursor-pointer">
-                    <input type="checkbox" name="tags" value="{{ tag.id }}" class="hidden peer">
+                    <input type="checkbox" name="tags" value="{{ tag.id }}" class="hidden peer"
+                        {% if tag in form.instance.tags.all %}checked{% endif %}>
                     <span class="px-3 py-1 border rounded-md bg-gray-200 text-gray-700 peer-checked:bg-blue-500 peer-checked:text-white transition">
                         {{ tag.name }}
                     </span>
@@ -27,6 +30,4 @@
         <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded">Post Blog</button>
     </form>
 </div>
-
-
 {% endblock %}
