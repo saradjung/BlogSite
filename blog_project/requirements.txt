@@ -1,8 +1,6 @@
-django>=5.0,<6.0
-django-ckeditor>=6.7,<7.0
-pillow>=11.1,<12.0
-
-Django
+django
+django-ckeditor
+pillow
 gunicorn
 whitenoise
 psycopg2-binary
