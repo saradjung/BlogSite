@@ -22,7 +22,7 @@ This is a **Django-based blog project** built collaboratively by **Rabin Shresth
 ## Installation & Setup
 ### 1. Clone the repository
 ```bash
-$ git clone https://github.com/yourusername/blog-project.git
+$ git clone https://github.com/saradjung/BlogSite.git
 $ cd blog-project
 ```
 
