@@ -17,7 +17,7 @@ CSRF_TRUSTED_ORIGINS = ["https://blogsite-production-82f1.up.railway.app"]
 SECRET_KEY = 'django-insecure-3r5nww_7nvxb#e_$=#7v&88*g%!+6+&4iurrso(2ys0mu2g977'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ["*"]
 
