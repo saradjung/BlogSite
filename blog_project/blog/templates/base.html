@@ -33,52 +33,62 @@
     {% endif %}
 
 
-    <!-- templates/navbar.html -->
     <nav class="absolute top-0 left-0 w-full p-4 bg-transparent z-10">
         <div class="container mx-auto flex justify-between items-center">
-            <!-- Logo (Blue Text) -->
-            <a href="{%url 'home'%}" class="text-blue-600 text-2xl font-bold">MyBlog</a>
-
-            <!-- Nav Links (Centered) -->
-            <div class="flex-1 text-center">
-                <a href="{%url 'home'%}" class="text-gray-800 hover:text-blue-600 mx-4 transition">Home</a>
-                <a href="{%url 'all_blogs'%}" class="text-gray-800 hover:text-blue-600 mx-4 transition">All Blogs</a>
-                <a href="{%url 'about'%}" class="text-gray-800 hover:text-blue-600 mx-4 transition">About</a>
-                <a href="{%url 'contact'%}" class="text-gray-800 hover:text-blue-600 mx-4 transition">Contact</a>
-                {%if user.is_authenticated%}
-                    <a href="{%url 'bookmarks'%}" class="text-gray-800 hover:text-blue-600 mx-4 transition">Bookmarks</a>
-                {%endif%}
+            <!-- Logo -->
+            <a href="{% url 'home' %}" class="text-blue-600 text-2xl font-bold">MyBlog</a>
+    
+            <!-- Desktop Nav Links -->
+            <div class="hidden md:flex flex-grow flex justify-center space-x-6">
+                <a href="{% url 'home' %}" class="text-gray-800 hover:text-blue-600 mx-4 transition">Home</a>
+                <a href="{% url 'all_blogs' %}" class="text-gray-800 hover:text-blue-600 mx-4 transition">All Blogs</a>
+                <a href="{% url 'about' %}" class="text-gray-800 hover:text-blue-600 mx-4 transition">About</a>
+                <a href="{% url 'contact' %}" class="text-gray-800 hover:text-blue-600 mx-4 transition">Contact</a>
+                {% if user.is_authenticated %}
+                    <a href="{% url 'bookmarks' %}" class="text-gray-800 hover:text-blue-600 mx-4 transition">Bookmarks</a>
+                {% endif %}
             </div>
-
-            <!-- Login Button -->
-            {% if user.is_authenticated %}
-                <a href="{% url 'logout' %}" class="bg-white-900 text-blue-600/100 px-4 py-2 border-2 border-blue-500 hover:transition">
-                Logout
-                </a>
-            {% else %}
-            <!-- User is not logged in, show Login -->
-            <a href="{% url 'login' %}" class="bg-blue-500 text-white px-4 py-2 border-2 border-blue-500 rounded-lg hover:transition mr-2">
-                Login
-            </a>
-
-            <a href="{% url 'signup' %}" class="bg-white-900 text-blue-600/100 px-4 py-2 border-2 border-blue-500 rounded-lg hover:transition">
-                Sign Up
-            </a>
-
-            {% endif %}
-
-            
+    
+            <!-- Desktop Login/Signup (Hidden on Mobile) -->
+            <div class="hidden md:flex">
+                {% if user.is_authenticated %}
+                    <a href="{% url 'logout' %}" class="bg-blue-500 text-white px-4 py-2 border-2 border-blue-500 rounded-lg hover:transition">
+                        Logout
+                    </a>
+                {% else %}
+                    <a href="{% url 'login' %}" class="bg-blue-500 text-white px-4 py-2 border-2 border-blue-500 rounded-lg hover:transition mr-2">
+                        Login
+                    </a>
+                    <a href="{% url 'signup' %}" class="bg-white-900 text-blue-600/100 px-4 py-2 border-2 border-blue-500 rounded-lg hover:transition">
+                        Sign Up
+                    </a>
+                {% endif %}
+            </div>
+    
             <!-- Mobile Menu Button -->
-            <div class="md:hidden">
-                <button id="menu-button" class="text-white">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
-                    </svg>
-                </button>
-            </div>
+            <button id="menu-button" class="md:hidden text-gray-800">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                </svg>
+            </button>
+        </div>
+    
+        <!-- Mobile Dropdown Menu -->
+        <div id="mobile-menu" class="hidden md:hidden flex flex-col items-center space-y-3 bg-gray-800 text-white p-4 rounded-lg">
+            <a href="{% url 'home' %}" class="hover:text-blue-400 transition">Home</a>
+            <a href="{% url 'all_blogs' %}" class="hover:text-blue-400 transition">All Blogs</a>
+            <a href="{% url 'about' %}" class="hover:text-blue-400 transition">About</a>
+            <a href="{% url 'contact' %}" class="hover:text-blue-400 transition">Contact</a>
+            {% if user.is_authenticated %}
+                <a href="{% url 'bookmarks' %}" class="hover:text-blue-400 transition">Bookmarks</a>
+                <a href="{% url 'logout' %}" class="hover:text-blue-400 transition">Logout</a>
+            {% else %}
+                <a href="{% url 'login' %}" class="hover:text-blue-400 transition">Login</a>
+                <a href="{% url 'signup' %}" class="hover:text-blue-400 transition">Sign Up</a>
+            {% endif %}
         </div>
     </nav>
-
+    
 
     <main class="flex-grow">
         {% block content %}
@@ -150,16 +160,28 @@
         document.addEventListener("DOMContentLoaded", function() {
             const menuButton = document.getElementById("menuButton");
             const menuDropdown = document.getElementById("menuDropdown");
+            
 
             menuButton.addEventListener("click", function(event) {
                 event.stopPropagation(); // Prevent clicking outside from closing immediately
                 menuDropdown.classList.toggle("hidden");
+                
             });
 
             document.addEventListener("click", function(event) {
                 if (!menuDropdown.contains(event.target) && event.target !== menuButton) {
                     menuDropdown.classList.add("hidden");
                 }
+            });
+        });
+    </script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const menuButton = document.getElementById("menu-button");
+            const mobileMenu = document.getElementById("mobile-menu");
+    
+            menuButton.addEventListener("click", function () {
+                mobileMenu.classList.toggle("hidden");
             });
         });
     </script>
