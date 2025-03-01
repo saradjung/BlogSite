@@ -9,6 +9,7 @@ from .forms import CustomUserCreationForm
 from django.contrib.auth.models import User
 from django.db import models
 from django.db.models import Count, Q
+from django.http import HttpResponseForbidden
 # Create your views here.
 
 def home(request):
@@ -185,3 +186,24 @@ def recent_posts(request):
 def popular_posts(request):
     popular_post=Post.objects.order_by('-views')
     return render(request,'popular_posts.html',{'popular_post':popular_post})
+
+@login_required
+def edit_post(request, post_id):
+    post = get_object_or_404(Post, id=post_id, author=request.user)  # Ensure only the author can edit
+    if request.method == "POST":
+        form = PostForm(request.POST, instance=post)
+        if form.is_valid():
+            form.save()
+            return redirect('blog', post_id=post.id)
+    else:
+        form = PostForm(instance=post)
+    tags = Tag.objects.all()
+    return render(request, "edit_post.html", {"form": form, "tags":tags})
+
+@login_required
+def delete_post(request, post_id):
+    post = get_object_or_404(Post, id=post_id)
+    if request.user.username == post.author:
+        post.delete()
+        return redirect('home')  # Redirect to home after deletion
+    return HttpResponseForbidden("You are not allowed to delete this post.")

@@ -22,4 +22,6 @@ urlpatterns = [
     path('error',views.error, name='error'),
     path('recent/',views.recent_posts,name="recent_posts"),
     path('popular/',views.popular_posts,name="popular_posts"),
+     path('post/<int:post_id>/edit/', views.edit_post, name='edit_post'),
+    path('post/<int:post_id>/delete/', views.delete_post, name='delete_post'),
 ]
