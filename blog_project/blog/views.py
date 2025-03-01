@@ -34,7 +34,7 @@ def getBlog(request, post_id):
     post = Post.objects.get(id=post_id)
     post.views += 1
     post.save(update_fields=['views'])
-
+    comments = post.comments.filter(parent=None).prefetch_related('replies')
      # Fetch top authors (users who have written the most posts)
     top_authors = (Post.objects.values('author')  # Group by author (username)
     .annotate(post_count=Count('id'))  # Count posts per author
@@ -48,7 +48,7 @@ def getBlog(request, post_id):
         has_bookmarked = Bookmark.objects.filter(user=request.user, post=post).exists()
     else:
         has_bookmarked = False
-    return render(request, 'singleblog.html',{'post':post, 'has_bookmarked':has_bookmarked, 'top_authors': top_authors,
+    return render(request, 'singleblog.html',{'post':post,'comments': comments, 'has_bookmarked':has_bookmarked, 'top_authors': top_authors,
         'top_tags': top_tags})
 
 def all_blogs(request):
@@ -125,8 +125,13 @@ def add_comment(request, post_id):
     post = get_object_or_404(Post, id=post_id)
     if request.method == "POST":
         content = request.POST.get("content")
+        parent_id = request.POST.get("parent_id")  # Get parent comment ID (if it exists)
         if content:
-            Comment.objects.create(post=post, user=request.user, content=content)
+            parent_comment = None
+            if parent_id:
+                parent_comment = get_object_or_404(Comment, id=parent_id)  # fetches parent comment          
+            # create new comment (either main or reply)
+            Comment.objects.create(post=post, user=request.user, content=content, parent=parent_comment)
     return redirect("blog", post_id=post.id)
 
 #likes post only if user is logged in

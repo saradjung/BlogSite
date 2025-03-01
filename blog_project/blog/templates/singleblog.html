@@ -2,7 +2,6 @@
 {% block title %}{{ post.title }}{% endblock %}
 
 {% block content %}
-
 <div class="container mx-auto flex flex-col md:flex-row gap-0">
     <div class="md:w-2/3">
         <div class="max-w-3xl mx-auto bg-white p-6 rounded-lg shadow-md mt-20" style="margin-right: 2.5rem;">
@@ -70,23 +69,48 @@
                     </form>
                 {% endif %}
             </div>
+
+
             <hr class="my-6">
+
             <div id="comment-section" class="mt-6">
                 <h2 class="text-xl font-semibold">Discussion about this post</h2>
+
                 {% if user.is_authenticated %}
                     <form action="{% url 'add_comment' post.id %}" method="POST" class="mt-4">
                         {% csrf_token %}
                         <textarea name="content" class="w-full p-2 border rounded" placeholder="Write a comment..." required></textarea>
+                        <input type="hidden" name="parent_id" value="">  <!-- Hidden field for replies -->
                         <button type="submit" class="mt-2 px-4 py-2 bg-green-500 text-white rounded">Post Comment</button>
                     </form>
                 {% else %}
                     <p><a href="{% url 'login' %}" class="text-blue-500">Log in</a> to comment.</p>
                 {% endif %}
+
                 <div class="mt-4">
-                    {% for comment in post.comments.all %}
+                    {% for comment in comments %}
                         <div class="border-b pb-2 mb-2">
                             <p class="text-sm text-gray-600"><strong>{{ comment.user.username }}</strong> • {{ comment.created_at|date:"F d, Y" }}</p>
                             <p class="text-gray-800">{{ comment.content }}</p>
+
+                            {% if user.is_authenticated %}
+                                <button class="text-blue-500 text-sm hover:underline reply-btn" data-comment-id="{{ comment.id }}">Reply</button>
+
+                                <form action="{% url 'add_comment' post.id %}" method="POST" class="hidden reply-form mt-2" data-parent-id="{{ comment.id }}">
+                                    {% csrf_token %}
+                                    <textarea name="content" class="w-full p-2 border rounded" placeholder="Write a reply..." required></textarea>
+                                    <input type="hidden" name="parent_id" value="{{ comment.id }}">
+                                    <button type="submit" class="mt-2 px-4 py-2 bg-blue-500 text-white rounded">Post Reply</button>
+                                </form>
+                            {% endif %}
+
+                            <!-- Display Replies -->
+                            {% for reply in comment.replies.all %}
+                                <div class="ml-8 mt-2 p-2 border-l-2 border-gray-300">
+                                    <p class="text-sm text-gray-600"><strong>{{ reply.user.username }}</strong> • {{ reply.created_at|date:"F d, Y" }}</p>
+                                    <p class="text-gray-800">{{ reply.content }}</p>
+                                </div>
+                            {% endfor %}
                         </div>
                     {% empty %}
                         <p class="text-gray-500">No comments yet.</p>
@@ -95,11 +119,10 @@
             </div>
         </div>
     </div>
- 
     <aside class="md:w-1/3 space-y-8 mt-[100px]" >  <div class="bg-white p-4 shadow-lg rounded-lg">
-            <h3 class="text-xl font-semibold text-center border-b pb-2">Top Authors</h3>
-            <div class="space-y-4 mt-4">
-                {% for author_data in top_authors %}
+        <h3 class="text-xl font-semibold text-center border-b pb-2">Top Authors</h3>
+        <div class="space-y-4 mt-4">
+            {% for author_data in top_authors %}
                 {% if author_data.author %}
                     <a href="{% url 'author_posts' username=author_data.author %}" class="flex items-center space-x-4 hover:bg-gray-100 p-2 rounded-lg">
                         <div class="w-12 h-12 flex justify-center items-center bg-gray-300 rounded-full border-2 border-indigo-500">
@@ -131,5 +154,15 @@
     </aside>
 </div>
 
-
+<script>
+    document.querySelectorAll('.reply-btn').forEach(button => {
+        button.addEventListener('click', function() {
+            let parentId = this.getAttribute('data-comment-id');
+            let form = document.querySelector(`.reply-form[data-parent-id='${parentId}']`);
+            if (form) {
+                form.classList.toggle('hidden');
+            }
+        });
+    });
+</script>
 {% endblock %}
